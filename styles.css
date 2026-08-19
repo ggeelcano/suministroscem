@@ -104,9 +104,11 @@ h3 { font-size: 1.0625rem; }
   min-height: 62px; padding-top: 8px; padding-bottom: 8px;
 }
 
-.logo { display: flex; align-items: center; gap: 9px; flex-shrink: 1; min-width: 0; margin-right: auto; }
+/* flex-basis 0: el logo cede ancho antes que provocar un salto de línea, que
+   por debajo de 378px partía la cabecera en tres filas. */
+.logo { display: flex; align-items: center; gap: 9px; flex: 1 1 0; min-width: 0; }
 .logo:hover { text-decoration: none; }
-.logo-marca { display: flex; flex-direction: column; line-height: 1.05; }
+.logo-marca { display: flex; flex-direction: column; line-height: 1.05; min-width: 0; }
 .logo-cem {
   font-size: 1.2rem; font-weight: 800; color: var(--verde);
   letter-spacing: -.02em; white-space: nowrap;
@@ -131,18 +133,25 @@ h3 { font-size: 1.0625rem; }
 }
 .buscador form { display: flex; }
 .buscador input {
-  width: 100%; font-size: 1rem; padding: 10px 44px 10px 14px;
+  width: 100%; font-size: 1rem; padding: 12px 48px 12px 16px;
   border: 1.5px solid var(--linea); border-radius: 999px;
   background: var(--fondo-alt); color: var(--tinta);
   transition: border-color .15s, background .15s;
+  -webkit-appearance: none; appearance: none;
 }
+/* iOS pinta su propio campo de búsqueda, con una X de cancelar que se solapa
+   con el botón de la lupa. */
+.buscador input::-webkit-search-decoration,
+.buscador input::-webkit-search-cancel-button,
+.buscador input::-webkit-search-results-button,
+.buscador input::-webkit-search-results-decoration { -webkit-appearance: none; display: none; }
 .buscador input:focus {
   outline: none; border-color: var(--verde); background: #fff;
   box-shadow: 0 0 0 3px rgba(15, 107, 63, .12);
 }
 .buscador button {
-  position: absolute; right: 4px; top: 4px;
-  width: 36px; height: 36px; border: 0; border-radius: 50%;
+  position: absolute; right: 3px; top: 3px;
+  width: 40px; height: 40px; border: 0; border-radius: 50%;
   background: var(--verde); display: grid; place-items: center;
 }
 .buscador button svg { width: 17px; height: 17px; stroke: #fff; fill: none; stroke-width: 2.2; }
@@ -849,6 +858,20 @@ h3 { font-size: 1.0625rem; }
 
 @media (min-width: 1240px) {
   .contenedor { padding: 0 32px; }
+}
+
+/* La cesta ya está en la barra inferior fija: en móvil el icono de la cabecera
+   solo robaba ancho a la marca. */
+@media (max-width: 1023.98px) {
+  .acciones .btn-icono[href="#/carrito"] { display: none; }
+}
+
+/* Móviles estrechos (iPhone SE y similares) */
+@media (max-width: 379.98px) {
+  .logo-cem { font-size: 1.05rem; }
+  .logo-icono { width: 34px; height: 34px; }
+  .logo-icono svg { width: 20px; height: 20px; }
+  .logo-sub { font-size: .5625rem; }
 }
 
 /* Accesibilidad: respeta la preferencia de menos movimiento */

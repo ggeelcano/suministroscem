@@ -14,9 +14,9 @@
   var WA = '34611888558';
   var MAIL = 'pedidos@suministroscem.com';
 
-  var MARCAS = ['Arcoroc', 'Duralex', 'Porvasal', 'Lacor', 'Pujadas', 'Porcelanas del Principado',
+  var MARCAS = ['Arcoroc', 'Ariane', 'Duralex', 'Porvasal', 'Lacor', 'Pujadas', 'Porcelanas del Principado',
     'Dalper', 'Sammic', 'Infrico', 'Coreco', 'Repagas', 'Distform', 'Araven', 'Valira',
-    'Trilla', 'Soabel', 'SupremInox', 'Proquivi', 'Cim', 'Jay', 'Comas & Partners'];
+    'Trilla', 'Soabel', 'SupremInox', 'Proquivi', 'Cim', 'Jay', 'Global', 'Comas & Partners'];
 
   var NOVEDADES = [
     { img: 'files_novedades_foto_1.jpg', n: 'Máquina de helado Lacor', c: 'Máquinas fabricadoras de helado', t: 'Novedad' },
@@ -27,10 +27,9 @@
   ];
 
   var NOTICIAS = [
-    { img: 'files_texto_inicio_foto_37.jpg', f: '2026-06-18', t: 'Vajilla Terra de Ariane, cuatro decorados rústicos', d: 'La vajilla para hostelería Terra de Ariane es un conjunto de cuatro decorados rústicos disponibles en Arena, Rojo, Azul y Moka, que crean un ambiente rural en la mesa.' },
-    { img: 'files_texto_inicio_foto_38.jpg', f: '2026-05-27', t: 'Vajilla de pizarra para emplatados', d: 'La pizarra natural sigue siendo el soporte preferido para tapas, quesos y postres. Ampliamos la gama con formatos rectangulares y con pie.' },
-    { img: 'files_texto_inicio_foto_42.jpg', f: '2026-04-30', t: 'Cuchillos Global, acero japonés en la cocina', d: 'Los cuchillos de la marca Global están fabricados en una sola pieza de acero inoxidable. Tenemos la serie G y los afiladores de la casa.' },
-    { img: 'files_promociones_foto_5.jpg', f: '2026-03-12', t: 'Descuentos que suben según el volumen de compra', d: 'Los clientes registrados aplican descuento automático por volumen. Cuanto más compras a lo largo del año, mejor es tu tarifa.' }
+    { img: 'files_texto_inicio_foto_37.jpg', t: 'Vajilla Terra de Ariane, cuatro decorados rústicos', d: 'La vajilla para hostelería Terra de Ariane es un conjunto de cuatro decorados rústicos, disponibles en Arena, Rojo, Azul y Moka, que crean un ambiente rural en la mesa.' },
+    { img: 'files_texto_inicio_foto_38.jpg', t: 'Vajilla de pizarra para emplatados', d: 'La pizarra natural es uno de los soportes más socorridos para tapas, quesos y postres. La tenemos en varios formatos dentro de la familia de vajilla.' },
+    { img: 'files_texto_inicio_foto_42.jpg', t: 'Cuchillos Global, acero japonés en la cocina', d: 'Los cuchillos de la marca Global están fabricados en una sola pieza de acero inoxidable. Trabajamos la serie G y los afiladores de la casa.' }
   ];
 
   /* ---------- utilidades ---------- */
@@ -165,7 +164,7 @@
     return '<section class="seccion seccion-alt"><div class="contenedor">' +
       '<div style="text-align:center;margin-bottom:18px">' +
       '<span class="titulo-linea" style="justify-content:center">Marcas que distribuimos</span>' +
-      '<p style="color:var(--gris);margin:0;font-size:.9375rem">Trabajamos con fabricantes que responden cuando hay que responder.</p>' +
+      '<p style="color:var(--gris);margin:0;font-size:.9375rem">Distribuimos marcas con recambio y servicio postventa en España.</p>' +
       '</div><div class="marcas">' +
       MARCAS.map(function (m) { return '<span class="marca">' + e(m) + '</span>'; }).join('') +
       '</div></div></section>';
@@ -201,7 +200,7 @@
 
       '<section class="ventajas"><div class="contenedor"><div class="ventajas-grid">' +
       '<div class="ventaja">' + ico('M3 7h11v8H3zM14 10h4l3 3v2h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z') +
-      '<div><strong>Envíos a toda España</strong><span>Salida en 24-48 h del material en stock</span></div></div>' +
+      '<div><strong>Envíos a toda España</strong><span>Normalmente en 24-48 h si está en almacén</span></div></div>' +
       '<div class="ventaja">' + ico('M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z M9.5 12l1.8 1.8L15 10') +
       '<div><strong>Servicio técnico propio</strong><span>Frío industrial y reparaciones en Barcelona</span></div></div>' +
       '<div class="ventaja">' + ico('M4 20h16M7 20V9l5-6 5 6v11M10 14h4') +
@@ -221,7 +220,9 @@
         return '<a href="#/familia/' + f.s + '" class="familia">' +
           '<span class="familia-ico">' + ico(f.i) + '</span>' +
           '<strong>' + e(f.n) + '</strong>' +
-          '<span>' + f.subs.length + ' ' + (f.subs.length === 1 ? 'subcategoría' : 'subcategorías') + '</span>' +
+          '<span>' + (f.count
+            ? f.count + (f.count === 1 ? ' artículo' : ' artículos')
+            : 'Bajo pedido') + '</span>' +
           '</a>';
       }).join('') +
       '</div></div></section>' +
@@ -247,11 +248,11 @@
 
       '<section class="seccion"><div class="contenedor">' +
       '<div class="seccion-cab"><div>' +
-      '<span class="titulo-linea">Ofertas</span>' +
-      '<h2>Precios de esta temporada</h2>' +
-      '<p>Artículos de reposición diaria a precio ajustado.</p>' +
-      '</div><a href="#/ofertas">Ver todas las ofertas →</a></div>' +
-      rejilla(baratos, 'Oferta') +
+      '<span class="titulo-linea">Con precio publicado</span>' +
+      '<h2>Reposición del día a día</h2>' +
+      '<p>Artículos que puedes pedir directamente, sin esperar presupuesto.</p>' +
+      '</div><a href="#/ofertas">Ver todos →</a></div>' +
+      rejilla(baratos) +
       '</div></section>' +
 
       '<section class="seccion seccion-alt"><div class="contenedor">' +
@@ -295,7 +296,7 @@
       '<h3>Qué productos incluye</h3>' +
       '<p>En nuestro catálogo tienes menaje de cocina industrial, vajilla, cristalería, cubertería, cuchillería, mobiliario de interior y de terraza, maquinaria de frío y de calor, detergentes, papel y productos de un solo uso para llevar. Buscamos y localizamos también los artículos que no aparecen en la web, así que si no encuentras algo, pregúntanos.</p>' +
       '<h3>Para qué sirven</h3>' +
-      '<p>Para que el servicio salga. Un plato que no se astilla al tercer pase, una copa que aguanta el lavavajillas y una plancha que calienta parejo son la diferencia entre un turno tranquilo y uno de bomberos. Por eso hacemos una selección estricta del producto y trabajamos con marcas que responden si algo falla.</p>' +
+      '<p>Para que el servicio salga adelante. Un plato que no se astilla al tercer pase, una copa que aguanta el lavavajillas y una plancha que calienta de forma uniforme se notan en cada turno. Por eso hacemos una selección estricta del producto y trabajamos con marcas que tienen recambio cuando algo falla.</p>' +
       '</div></div></section>';
   }
 
@@ -309,7 +310,7 @@
           '<div class="seccion-cab" style="margin-bottom:14px"><div>' +
           '<h2 style="display:flex;align-items:center;gap:10px;font-size:1.25rem">' +
           '<span class="familia-ico" style="width:34px;height:34px">' + ico(f.i) + '</span>' + e(f.n) + '</h2>' +
-          '</div><a href="#/familia/' + f.s + '">Ver los ' + f.count + ' artículos →</a></div>' +
+          '</div><a href="#/familia/' + f.s + '">' + (f.count === 1 ? 'Ver el artículo' : f.count ? 'Ver los ' + f.count + ' artículos' : 'Pedir precio') + ' →</a></div>' +
           '<div class="chips" style="display:flex;flex-wrap:wrap;overflow:visible">' +
           f.subs.map(function (s) {
             return '<a href="#/familia/' + f.s + '?sub=' + encodeURIComponent(s) + '" class="chip">' + e(s) + '</a>';
@@ -358,8 +359,8 @@
     var contenido = lista.length
       ? rejilla(lista)
       : '<div class="vacio">' + ico('M21 21l-4.5-4.5M3 10.5a7.5 7.5 0 1 0 15 0 7.5 7.5 0 0 0-15 0') +
-        '<h3>Todavía no hay artículos publicados aquí</h3>' +
-        '<p>Esta sección sí la servimos, pero aún no está subida a la web. Dinos qué buscas y te pasamos precio y disponibilidad el mismo día.</p>' +
+        '<h3>Esta gama la trabajamos bajo pedido</h3>' +
+        '<p>Son equipos que se eligen por proyecto y por cocina, así que preferimos pasarte precio ajustado a lo que necesitas en vez de publicar una lista. Dinos qué buscas y te contestamos el mismo día.</p>' +
         '<a href="#/contacto" class="btn btn-verde">Preguntar por ' + e(sub || f.n) + '</a></div>';
 
     return cabPagina(sub || f.n, sub
@@ -431,14 +432,14 @@
       '</div>' +
 
       '<div class="ficha-aviso">' + ico('M12 8v5M12 16.5v.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z') +
-      '<span>Los precios son para profesionales del sector. Si te registras como cliente, aplicamos tu tarifa y el descuento por volumen.</span></div>' +
+      '<span>Los precios que ves son de tarifa general y van dirigidos a profesionales del sector. Si compras con nosotros de forma habitual, llámanos y ajustamos el precio.</span></div>' +
 
       '<div class="ficha-datos"><dl>' +
       '<dt>Referencia</dt><dd>' + p.id + '</dd>' +
       '<dt>Familia</dt><dd>' + e(f.n) + '</dd>' +
       '<dt>Subcategoría</dt><dd>' + e(p.c) + '</dd>' +
       '<dt>Disponibilidad</dt><dd style="color:var(--verde)">Consultar en almacén</dd>' +
-      '<dt>Envío</dt><dd>24-48 h península</dd>' +
+      '<dt>Envío</dt><dd>Normalmente 24-48 h</dd>' +
       '</dl></div>' +
 
       '</div></div>' +
@@ -471,12 +472,12 @@
 
   function vistaOfertas() {
     var lista = PRODUCTOS.filter(function (p) { return p.p; }).sort(function (a, b) { return a.p - b.p; });
-    return cabPagina('Ofertas',
-      'Artículos con precio publicado, listos para pedir. Los clientes registrados aplican además su descuento por volumen.',
+    return cabPagina('Artículos con precio',
+      'Estos son los artículos que tienen el precio publicado y puedes pedir directamente. Del resto del catálogo te pasamos precio en el día.',
       [{ t: 'Ofertas' }]) +
       '<div class="contenedor"><div class="seccion">' +
       '<div class="barra-filtros"><span class="resultado"><b>' + lista.length + '</b> artículos con precio publicado</span></div>' +
-      rejilla(lista, 'Oferta') +
+      rejilla(lista) +
       '</div></div>';
   }
 
@@ -512,7 +513,7 @@
       [{ t: 'Reformas' }]) +
       '<div class="contenedor"><div class="seccion">' +
       '<div class="texto">' +
-      '<p>En el año 2007 creamos Suministros de Hostelería Moncat, una empresa orientada a reformas y proyectos de hoteles, restaurantes, bares y residencias. La idea era sencilla: si ya te vendemos el equipamiento, también podemos montarte el local entero y que trates con una sola gente.</p>' +
+      '<p>En el año 2007 creamos Suministros de Hostelería Moncat, una empresa orientada a reformas y proyectos de hoteles, restaurantes, bares y residencias. La idea era sencilla: si ya te vendemos el equipamiento, también podemos montarte el local entero y que trates con un solo interlocutor.</p>' +
       '<p>Damos soluciones llave en mano y equipamos tu local con producto de diseño y calidad, del tipo que aguanta el uso diario de una cocina profesional.</p>' +
 
       '<h2>Cómo va el proceso</h2>' +
@@ -587,7 +588,7 @@
 
       '<div class="mapa">' +
       '<iframe title="Mapa de situación de Suministros CEM" loading="lazy" referrerpolicy="no-referrer-when-downgrade" ' +
-      'src="https://www.openstreetmap.org/export/embed.html?bbox=2.1755%2C41.4085%2C2.1885%2C41.4155&amp;layer=mapnik&amp;marker=41.4120%2C2.1820"></iframe>' +
+      'src="https://www.openstreetmap.org/export/embed.html?bbox=2.1744%2C41.4077%2C2.1844%2C41.4137&amp;layer=mapnik&amp;marker=41.4107%2C2.1794"></iframe>' +
       '</div>' +
 
       '<div>' +
@@ -595,7 +596,7 @@
       fichaContacto('M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
         'Dirección', '<p>C/ Independencia, 349<br>08026 Barcelona</p><small>Oficinas, exposición y ventas</small>') +
       fichaContacto('M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z',
-        'Teléfono y fax', '<a href="tel:' + TEL + '">' + TEL_TXT + '</a>') +
+        'Teléfono', '<a href="tel:' + TEL + '">' + TEL_TXT + '</a><small>El fax es el mismo número</small>') +
       fichaContacto('M2.5 4.5h19v15h-19zM3 7l9 6 9-6',
         'Correo', '<a href="mailto:' + MAIL + '">' + MAIL + '</a>') +
       fichaContacto('M20.5 3.5A10 10 0 0 0 3.6 15.3L2.5 21.5l6.4-1.1A10 10 0 1 0 20.5 3.5z',
@@ -634,7 +635,7 @@
 
       '<div>' +
       '<h2 style="font-size:1.25rem">Escríbenos</h2>' +
-      '<div class="aviso-form" id="aviso-form">Gracias, hemos recibido tu mensaje. Te contestamos en horario de tienda, normalmente el mismo día.</div>' +
+      '<div class="aviso-form" id="aviso-form">Te hemos abierto el correo con los datos ya rellenados. Dale a enviar y te contestamos en horario de tienda, normalmente el mismo día.</div>' +
       '<form class="formulario" id="form-contacto" novalidate>' +
       '<div class="campo-fila">' +
       '<div class="campo"><label for="c-nombre">Nombre y apellidos <span>*</span></label><input type="text" id="c-nombre" required></div>' +
@@ -686,7 +687,7 @@
 
       '<div>' +
       '<h2 style="font-size:1.25rem">Alta de cliente</h2>' +
-      '<div class="aviso-form" id="aviso-form">Solicitud recibida. Revisamos los datos y te activamos la cuenta en un día laborable.</div>' +
+      '<div class="aviso-form" id="aviso-form">Te hemos abierto el correo con los datos del alta. Dale a enviar y te confirmamos en un día laborable.</div>' +
       '<form class="formulario" id="form-contacto" novalidate>' +
       '<div class="campo-fila">' +
       '<div class="campo"><label for="r-razon">Razón social <span>*</span></label><input type="text" id="r-razon" required></div>' +
@@ -709,20 +710,18 @@
 
       '<div>' +
       '<h2 style="font-size:1.25rem">Ya soy cliente</h2>' +
-      '<form class="formulario" onsubmit="return false">' +
-      '<div class="campo"><label for="l-email">Correo</label><input type="email" id="l-email"></div>' +
-      '<div class="campo"><label for="l-pass">Contraseña</label><input type="password" id="l-pass"></div>' +
-      '<button type="submit" class="btn btn-verde">Entrar</button>' +
-      '<a href="#/contacto" style="font-size:.875rem">He olvidado la contraseña</a>' +
-      '</form>' +
+      '<div class="lateral-caja">' +
+      '<p style="margin:0 0 12px;font-size:.9375rem;color:var(--gris)">Si ya trabajas con nosotros y quieres hacer el pedido, llámanos o mándanos la lista. Te atendemos igual de rápido.</p>' +
+      '<a href="tel:' + TEL + '" class="btn btn-verde btn-bloque">Llamar al ' + TEL_TXT + '</a>' +
+      '<a href="https://wa.me/' + WA + '" target="_blank" rel="noopener" class="btn btn-linea btn-bloque" style="margin-top:8px">Pedir por WhatsApp</a>' +
+      '</div>' +
 
       '<div class="lateral-caja" style="margin-top:24px;background:var(--verde-claro);border-color:var(--verde-borde)">' +
       '<h3 style="color:var(--verde-osc)">Qué ganas al registrarte</h3>' +
       '<ul style="margin:0;padding-left:1.1em;font-size:.875rem;color:var(--verde-osc);line-height:1.7">' +
-      '<li>Ves tu tarifa aplicada en cada artículo.</li>' +
-      '<li>El descuento sube según el volumen que compras al año.</li>' +
-      '<li>Repites pedidos anteriores en dos clics.</li>' +
-      '<li>Consultas tus facturas y albaranes.</li>' +
+      '<li>Te damos de alta como cliente y hablas siempre con la misma persona.</li>' +
+      '<li>Te preparamos presupuesto de lo que necesites, esté o no publicado.</li>' +
+      '<li>Guardamos tus datos de entrega para los siguientes pedidos.</li>' +
       '</ul></div>' +
       '</div>' +
 
@@ -731,13 +730,13 @@
 
   function vistaCatalogos() {
     var cats = [
-      { t: 'Catálogo general de hostelería', d: 'Menaje, vajilla, cristalería, cubertería y complementos de mesa.', p: '412 páginas' },
-      { t: 'Maquinaria de cocina', d: 'Frío, calor, elaboración y lavado industrial con fichas técnicas.', p: '186 páginas' },
-      { t: 'Mobiliario de interior y terraza', d: 'Sillas, mesas, taburetes, parasoles y estufas.', p: '94 páginas' },
-      { t: 'Un solo uso y take away', d: 'Envases, bolsas, papel, servilletas y tarrinas.', p: '68 páginas' }
+      { t: 'Catálogo general de hostelería', d: 'Menaje, vajilla, cristalería, cubertería y complementos de mesa.' },
+      { t: 'Maquinaria de cocina', d: 'Frío, calor, elaboración y lavado industrial con fichas técnicas.' },
+      { t: 'Mobiliario de interior y terraza', d: 'Sillas, mesas, taburetes, parasoles y estufas.' },
+      { t: 'Un solo uso y take away', d: 'Envases, bolsas, papel, servilletas y tarrinas.' }
     ];
     return cabPagina('Catálogos',
-      'Descarga los catálogos en PDF o pídelos en papel en la tienda.',
+      'Dinos cuál te interesa y te lo hacemos llegar, en PDF o en papel.',
       [{ t: 'Catálogos' }]) +
       '<div class="contenedor"><div class="seccion">' +
       '<div class="servicios">' +
@@ -745,7 +744,7 @@
         return '<a href="#/contacto" class="servicio">' +
           '<span class="servicio-ico">' + ico('M6 3h9l3 3v15H6zM15 3v3h3M9 12h6M9 16h6') + '</span>' +
           '<div><h3>' + e(c.t) + '</h3><p>' + e(c.d) + '</p>' +
-          '<span class="servicio-mas">PDF · ' + e(c.p) + ' →</span></div></a>';
+          '<span class="servicio-mas">Pedir este catálogo →</span></div></a>';
       }).join('') +
       '</div>' +
       '<div class="texto" style="margin-top:30px">' +
@@ -761,10 +760,10 @@
       '<div class="contenedor"><div class="seccion">' +
       '<div class="noticias">' +
       NOTICIAS.map(function (n) {
-        return '<a href="#/noticias" class="noticia">' +
+        return '<a href="#/contacto" class="noticia">' +
           '<img src="img/' + e(n.img) + '" alt="" loading="lazy" width="96" height="96">' +
-          '<div><time datetime="' + n.f + '">' + fecha(n.f) + '</time>' +
-          '<h3>' + e(n.t) + '</h3><p>' + e(n.d) + '</p></div></a>';
+          '<div><h3>' + e(n.t) + '</h3><p>' + e(n.d) + '</p>' +
+          '<span class="servicio-mas">Preguntar por esta gama →</span></div></a>';
       }).join('') +
       '</div></div></div>';
   }
@@ -774,7 +773,7 @@
       'Si conoces el sector y te gusta el trato con el cliente, cuéntanoslo.',
       [{ t: 'Trabaja con Nosotros' }]) +
       '<div class="contenedor"><div class="seccion"><div class="texto">' +
-      '<p>Somos una empresa pequeña donde cada uno lleva su parcela y se habla con los clientes de tú a tú. Buscamos gente que sepa de hostelería, aunque sea porque ha estado detrás de una barra.</p>' +
+      '<p>Somos un equipo corto, y eso hace que hables siempre con la misma persona y que las cosas se resuelvan sin pasar por tres departamentos. Buscamos gente que sepa de hostelería, aunque sea porque ha estado detrás de una barra.</p>' +
       '<h2>Perfiles que solemos necesitar</h2>' +
       '<ul>' +
       '<li>Comercial de calle para la zona de Barcelona.</li>' +
@@ -858,16 +857,14 @@
       '<ul>' +
       '<li><strong>Transferencia bancaria.</strong> Preparamos el pedido al confirmar la entrada del importe.</li>' +
       '<li><strong>Tarjeta de crédito o débito</strong> a través de la pasarela segura del banco. Los datos de la tarjeta no pasan por nuestros servidores.</li>' +
-      '<li><strong>Contra reembolso</strong> para pedidos de la península, con un recargo del 2 % sobre el total.</li>' +
-      '<li><strong>Recibo domiciliado a 30 días</strong> para clientes con cuenta abierta y línea de crédito aprobada.</li>' +
+      '<li><strong>Contra reembolso</strong> para pedidos de la península. Consulta el recargo que aplica la agencia.</li>' +
+      '<li><strong>Recibo domiciliado</strong> para clientes con cuenta abierta, en las condiciones que acordemos.</li>' +
       '</ul>' +
       '<p>El alta como cliente con pago aplazado se estudia caso por caso. Escríbenos desde la página de <a href="#/registrese">registro</a>.</p>'],
     'gastos-de-envio': ['Gastos de Envío',
-      '<p>Servimos a toda España. El plazo habitual del material en stock es de 24 a 48 horas laborables en península.</p>' +
+      '<p>Servimos a toda España. Los portes se calculan según el destino, el peso y el volumen del pedido, y te confirmamos el importe exacto antes de que lo cierres.</p>' +
       '<h3>Península</h3>' +
-      '<ul><li>Pedidos superiores a 300 € (sin IVA): portes pagados.</li>' +
-      '<li>Pedidos inferiores: 12,50 € por envío.</li>' +
-      '<li>Mercancía voluminosa (mobiliario, maquinaria): presupuesto según destino y volumen.</li></ul>' +
+      '<p>A partir de cierto importe el envío va sin coste. Pregúntanos por tu caso, porque no es lo mismo una caja de servilletas que un armario refrigerado.</p>' +
       '<h3>Baleares, Canarias, Ceuta y Melilla</h3>' +
       '<p>Consulta el coste antes de cerrar el pedido. En Canarias, Ceuta y Melilla el importe no incluye los trámites de aduana ni los impuestos locales.</p>' +
       '<h3>Recogida en tienda</h3>' +
@@ -879,7 +876,7 @@
       '<h3>Disponibilidad</h3>' +
       '<p>La publicación de un artículo no garantiza su existencia en almacén. Si algo está agotado te avisamos y te damos plazo o alternativa antes de facturar.</p>' +
       '<h3>Pedido mínimo</h3>' +
-      '<p>El pedido mínimo para envío es de 60 € sin IVA. Por debajo de ese importe puedes recoger en tienda.</p>' +
+      '<p>Para los envíos aplicamos un importe mínimo de pedido. Consúltanos y, si no llegas, siempre puedes recoger en tienda.</p>' +
       '<h3>Confirmación</h3>' +
       '<p>Recibirás la confirmación del pedido por correo con el detalle de artículos, importes y dirección de entrega. Revísalo y avísanos de cualquier error el mismo día.</p>'],
     'garantias-y-devoluciones': ['Garantías y Devoluciones',
@@ -894,7 +891,9 @@
     'aviso-legal': ['Aviso Legal',
       '<p>En cumplimiento de la Ley 34/2002 de Servicios de la Sociedad de la Información y de Comercio Electrónico, se informa de los datos identificativos del titular de este sitio web.</p>' +
       '<h3>Titular</h3>' +
-      '<ul><li>Denominación: Comercial El Maño</li>' +
+      '<ul><li>Denominación social: Suministros de Hostelería Moncat, S.L.</li>' +
+      '<li>NIF: B64461072</li>' +
+      '<li>Nombre comercial: Comercial El Maño · Suministros CEM</li>' +
       '<li>Domicilio: Calle Independencia, 349 · 08026 Barcelona</li>' +
       '<li>Teléfono: ' + TEL_TXT + '</li>' +
       '<li>Correo: <a href="mailto:' + MAIL + '">' + MAIL + '</a></li></ul>' +
@@ -925,13 +924,11 @@
       '<h3>Legislación aplicable</h3>' +
       '<p>Estas condiciones se rigen por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales de Barcelona, salvo que la normativa de consumo establezca otro fuero.</p>'],
     'cookies': ['Política de Cookies',
-      '<p>Este sitio usa cookies propias para que funcionen la cesta de la compra y tus preferencias de navegación. Sin ellas la web no puede recordar lo que has añadido.</p>' +
-      '<h3>Cookies técnicas</h3>' +
-      '<p>Guardan el contenido de la cesta y la sesión iniciada. Son necesarias y no requieren consentimiento.</p>' +
-      '<h3>Cookies de medición</h3>' +
-      '<p>Nos dicen qué páginas se visitan y desde qué tipo de dispositivo, de forma agregada, para mejorar la web. Puedes rechazarlas sin que afecte a tu compra.</p>' +
-      '<h3>Cómo desactivarlas</h3>' +
-      '<p>Desde la configuración de tu navegador puedes bloquear o borrar las cookies. Ten en cuenta que si bloqueas las técnicas, la cesta dejará de funcionar.</p>'],
+      '<p>Esta web no instala cookies de publicidad ni de seguimiento.</p>' +
+      '<h3>Lo único que guardamos</h3>' +
+      '<p>Para que la cesta recuerde lo que has ido añadiendo, guardamos ese dato en el almacenamiento local de tu propio navegador. No se envía a ningún servidor, no identifica quién eres y desaparece si borras los datos de navegación.</p>' +
+      '<h3>Cómo borrarlo</h3>' +
+      '<p>Desde los ajustes de tu navegador, borrando los datos del sitio. También puedes vaciar la cesta desde la propia página. Si lo haces, la web sigue funcionando igual: solo perderás la lista que tuvieras empezada.</p>'],
     'blog': ['Blog',
       '<p>Publicamos fichas de producto, comparativas y algún consejo de mantenimiento de maquinaria.</p>' +
       '<p>Puedes ver las últimas entradas en la sección de <a href="#/noticias">noticias</a>.</p>']
@@ -1037,7 +1034,7 @@
           '<svg viewBox="0 0 24 24" class="chev"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg>' +
           '</button>' +
           '<div class="panel-subs" data-fam-subs="' + i + '">' +
-          '<a href="#/familia/' + f.s + '"><strong>Ver toda la familia (' + f.count + ')</strong></a>' +
+          '<a href="#/familia/' + f.s + '"><strong>Ver toda la familia' + (f.count ? ' (' + f.count + ')' : '') + '</strong></a>' +
           f.subs.map(function (s) {
             return '<a href="#/familia/' + f.s + '?sub=' + encodeURIComponent(s) + '">' + e(s) + '</a>';
           }).join('') +
@@ -1200,6 +1197,19 @@
         if (malo) ok = false;
       });
       if (!ok) return;
+
+      var lineas = [];
+      f.querySelectorAll('input, select, textarea').forEach(function (c) {
+        if (c.type === 'checkbox' || !c.value.trim()) return;
+        var et = f.querySelector('label[for="' + c.id + '"]');
+        var nom = et ? et.textContent.replace('*', '').trim() : c.id;
+        lineas.push(nom + ': ' + c.value.trim());
+      });
+      var asunto = f.querySelector('#c-asunto');
+      window.location.href = 'mailto:' + MAIL +
+        '?subject=' + encodeURIComponent(asunto ? asunto.value : 'Alta de cliente desde la web') +
+        '&body=' + encodeURIComponent(lineas.join('\n'));
+
       f.style.display = 'none';
       var av = document.getElementById('aviso-form');
       av.classList.add('visible');
