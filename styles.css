@@ -581,7 +581,7 @@ h3 { font-size: 1.0625rem; }
 .ficha { display: grid; gap: 20px; padding: 20px 0 44px; }
 .ficha-galeria {
   background: #fff; border: 1px solid var(--linea); border-radius: var(--radio);
-  padding: 20px; display: grid; place-items: center; aspect-ratio: 1;
+  padding: 14px; display: grid; place-items: center; aspect-ratio: 4 / 3;
 }
 .ficha-galeria img { width: 100%; height: 100%; object-fit: contain; }
 .ficha-info h1 { margin: 6px 0 8px; font-size: 1.5rem; }
@@ -759,7 +759,7 @@ main a[href^="tel:"], main a[href^="mailto:"] { display: inline-flex; align-item
 .pie-desc { margin: 0 0 14px; line-height: 1.55; max-width: 40ch; }
 .pie-social { display: flex; gap: 8px; }
 .pie-social a {
-  width: 34px; height: 34px; border-radius: 8px; background: rgba(255, 255, 255, .08);
+  width: 44px; height: 44px; border-radius: 9px; background: rgba(255, 255, 255, .08);
   display: grid; place-items: center;
 }
 .pie-social a:hover { background: var(--verde); }
@@ -856,6 +856,7 @@ main a[href^="tel:"], main a[href^="mailto:"] { display: inline-flex; align-item
   .carrusel { grid-auto-columns: 23%; }
   .servicios { grid-template-columns: repeat(3, 1fr); }
   .ficha { grid-template-columns: 1.05fr 1fr; gap: 44px; }
+  .ficha-galeria { aspect-ratio: 1; padding: 20px; }
   .ficha-acciones { grid-template-columns: 1fr 1fr; }
   .ficha-acciones .btn-bloque:first-child { grid-column: 1 / -1; }
 

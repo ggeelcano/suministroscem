@@ -432,7 +432,7 @@
       '</div>' +
 
       '<div class="ficha-aviso">' + ico('M12 8v5M12 16.5v.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z') +
-      '<span>Los precios que ves son de tarifa general y van dirigidos a profesionales del sector. Si compras con nosotros de forma habitual, llámanos y ajustamos el precio.</span></div>' +
+      '<span>Los precios son de tarifa general y van dirigidos a profesionales del sector. Consúltanos el formato de venta, porque hay artículos que se sirven por caja o por pack. Si compras de forma habitual, llámanos y ajustamos el precio.</span></div>' +
 
       '<div class="ficha-datos"><dl>' +
       '<dt>Referencia</dt><dd>' + p.id + '</dd>' +
@@ -472,8 +472,8 @@
 
   function vistaOfertas() {
     var lista = PRODUCTOS.filter(function (p) { return p.p; }).sort(function (a, b) { return a.p - b.p; });
-    return cabPagina('Artículos con precio',
-      'Estos son los artículos que tienen el precio publicado y puedes pedir directamente. Del resto del catálogo te pasamos precio en el día.',
+    return cabPagina('Ofertas',
+      'Artículos con el precio ya publicado, listos para pedir. Del resto del catálogo te pasamos precio en el día.',
       [{ t: 'Ofertas' }]) +
       '<div class="contenedor"><div class="seccion">' +
       '<div class="barra-filtros"><span class="resultado"><b>' + lista.length + '</b> artículos con precio publicado</span></div>' +
@@ -680,7 +680,7 @@
 
   function vistaRegistrese() {
     return cabPagina('Regístrese',
-      'El alta como cliente es para profesionales del sector. Con ella ves tu tarifa y el descuento por volumen.',
+      'El alta como cliente es para profesionales del sector. Te damos precio de profesional y hablas siempre con la misma persona.',
       [{ t: 'Regístrese' }]) +
       '<div class="contenedor"><div class="layout" style="grid-template-columns:1fr">' +
       '<div class="contacto-grid" style="display:grid;gap:28px">' +
@@ -1078,10 +1078,11 @@
   /* ---------- aviso de vacaciones ---------- */
 
   function avisoVacaciones() {
+    // Fechas confirmadas por el cliente para 2026. Con año fijo a propósito:
+    // no damos por hecho que cierren las mismas fechas todos los años.
     var hoy = new Date();
-    var y = hoy.getFullYear();
-    var desde = new Date(y, 7, 7);
-    var hasta = new Date(y, 7, 24, 23, 59);
+    var desde = new Date(2026, 7, 7);
+    var hasta = new Date(2026, 7, 24, 23, 59);
     if (hoy >= desde && hoy <= hasta) {
       document.getElementById('avisobar-txt').innerHTML =
         'Cerrados por vacaciones del 7 al 24 de agosto, ambos incluidos. Puedes seguir haciendo pedidos por la web y los servimos a la vuelta.';
