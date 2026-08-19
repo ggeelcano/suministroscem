@@ -27,7 +27,6 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
   overflow-x: hidden;
 }
 
@@ -47,10 +46,12 @@ body {
 
 img { max-width: 100%; display: block; }
 
-/* Tamaño por defecto para los iconos generados desde JS. Va con :where() para que
-   tenga especificidad cero y cualquier regla posterior lo sobrescriba. */
-:where(svg) { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; }
-svg { flex-shrink: 0; max-width: 100%; }
+/* Tamaño por defecto para los iconos que genera el JS. Al ir sin clase, cualquier
+   regla más específica lo sobrescribe; sin esto se pintaban a 108px. */
+svg {
+  width: 1.25em; height: 1.25em; fill: none; stroke: currentColor;
+  flex-shrink: 0; max-width: 100%;
+}
 a { color: var(--verde); text-decoration: none; }
 a:hover { text-decoration: underline; }
 button { font: inherit; cursor: pointer; }
@@ -60,7 +61,11 @@ h1 { font-size: clamp(1.5rem, 4.5vw, 2.25rem); }
 h2 { font-size: clamp(1.25rem, 3.5vw, 1.75rem); }
 h3 { font-size: 1.0625rem; }
 
-.contenedor { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 16px; }
+.contenedor {
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  padding-left: calc(16px + env(safe-area-inset-left, 0px));
+  padding-right: calc(16px + env(safe-area-inset-right, 0px));
+}
 
 .oculto-visual {
   position: absolute; width: 1px; height: 1px; overflow: hidden;
@@ -161,7 +166,7 @@ h3 { font-size: 1.0625rem; }
 .sugerencias {
   position: absolute; top: calc(100% + 8px); left: 0; right: 0; z-index: 70;
   background: #fff; border: 1px solid var(--linea); border-radius: var(--radio);
-  box-shadow: var(--sombra-alta); max-height: 60vh; overflow-y: auto; display: none;
+  box-shadow: var(--sombra-alta); max-height: 320px; overflow-y: auto; display: none;
 }
 .sugerencias.abierto { display: block; }
 .sug-item {
@@ -263,7 +268,7 @@ h3 { font-size: 1.0625rem; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 14px; border-bottom: 1px solid var(--linea); flex-shrink: 0;
 }
-.panel-cuerpo { overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+.panel-cuerpo { overflow-y: auto; flex: 1; }
 .panel-seccion {
   font-size: .6875rem; text-transform: uppercase; letter-spacing: .09em;
   font-weight: 700; color: var(--gris-claro);
@@ -442,7 +447,7 @@ h3 { font-size: 1.0625rem; }
 .producto-precio small { font-size: .625rem; font-weight: 600; color: var(--gris-claro); display: block; margin-top: -3px; }
 .producto-consultar { font-size: .8125rem; font-weight: 700; color: var(--gris); }
 .btn-add {
-  width: 40px; height: 40px; border-radius: 8px; border: 0;
+  width: 44px; height: 44px; border-radius: 10px; border: 0;
   background: var(--verde-claro); display: grid; place-items: center; flex-shrink: 0;
   transition: background .15s;
 }
@@ -460,10 +465,11 @@ h3 { font-size: 1.0625rem; }
 .carrusel {
   display: grid; grid-auto-flow: column; grid-auto-columns: 62%;
   gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory;
-  padding-bottom: 6px; margin: 0 -16px; padding-left: 16px; padding-right: 16px;
+  padding-bottom: 6px; margin: 0 -16px; padding-left: 16px;
   scrollbar-width: thin;
 }
 .carrusel > * { scroll-snap-align: start; }
+.carrusel > *:last-child { margin-right: 16px; }
 .carrusel::-webkit-scrollbar { height: 5px; }
 .carrusel::-webkit-scrollbar-thumb { background: var(--verde-borde); border-radius: 3px; }
 
@@ -545,9 +551,10 @@ h3 { font-size: 1.0625rem; }
 .barra-filtros .resultado { font-size: .875rem; color: var(--gris); margin-right: auto; }
 .barra-filtros .resultado b { color: var(--tinta); }
 .selector {
-  padding: 8px 32px 8px 12px; border: 1.5px solid var(--linea); border-radius: 8px;
-  font-size: .875rem; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235d6b64' stroke-width='2.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 9px center/15px;
-  appearance: none; color: var(--tinta); font-weight: 600;
+  padding: 9px 34px 9px 12px; border: 1.5px solid var(--linea); border-radius: 8px;
+  font-size: 16px; min-height: 44px;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235d6b64' stroke-width='2.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 9px center/15px;
+  -webkit-appearance: none; appearance: none; color: var(--tinta); font-weight: 600;
 }
 .selector:focus { outline: none; border-color: var(--verde); }
 .btn-filtros { display: inline-flex; }
@@ -576,7 +583,7 @@ h3 { font-size: 1.0625rem; }
   background: #fff; border: 1px solid var(--linea); border-radius: var(--radio);
   padding: 20px; display: grid; place-items: center; aspect-ratio: 1;
 }
-.ficha-galeria img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.ficha-galeria img { width: 100%; height: 100%; object-fit: contain; }
 .ficha-info h1 { margin: 6px 0 8px; font-size: 1.5rem; }
 .ficha-ref { font-size: .8125rem; color: var(--gris-claro); }
 .ficha-precio {
@@ -674,8 +681,11 @@ h3 { font-size: 1.0625rem; }
 }
 .campo textarea { min-height: 120px; resize: vertical; }
 .campo-fila { display: grid; gap: 14px; }
-.campo-check { display: flex; gap: 9px; align-items: flex-start; font-size: .8125rem; color: var(--gris); }
-.campo-check input { width: 17px; height: 17px; margin-top: 2px; flex-shrink: 0; accent-color: var(--verde); }
+.campo-check {
+  display: flex; gap: 12px; align-items: center; min-height: 44px;
+  font-size: .8125rem; color: var(--gris); cursor: pointer;
+}
+.campo-check input { width: 22px; height: 22px; flex-shrink: 0; accent-color: var(--verde); }
 .aviso-form {
   padding: 14px; border-radius: 8px; background: var(--verde-claro);
   border: 1px solid var(--verde-borde); color: var(--verde-osc); font-size: .875rem;
@@ -684,6 +694,7 @@ h3 { font-size: 1.0625rem; }
 .aviso-form.visible { display: block; }
 
 .fichas-contacto { display: grid; gap: 12px; }
+main a[href^="tel:"], main a[href^="mailto:"] { display: inline-flex; align-items: center; min-height: 44px; }
 .ficha-contacto {
   display: flex; gap: 13px; padding: 16px; background: #fff;
   border: 1px solid var(--linea); border-radius: var(--radio);
@@ -785,7 +796,8 @@ h3 { font-size: 1.0625rem; }
 
 /* ---------- Aviso flotante de añadido ---------- */
 .tostada {
-  position: fixed; left: 50%; bottom: 82px; transform: translate(-50%, 20px);
+  position: fixed; left: 50%; bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+  transform: translate(-50%, 20px);
   z-index: 100; background: var(--tinta); color: #fff;
   padding: 12px 18px; border-radius: 999px; font-size: .875rem; font-weight: 600;
   box-shadow: var(--sombra-alta); display: flex; align-items: center; gap: 9px;

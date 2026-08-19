@@ -1148,7 +1148,7 @@
       np.querySelector('button').setAttribute('aria-expanded', abierto ? 'true' : 'false');
       return;
     }
-    if (np && !t.closest('#nav-productos')) {
+    if (np && t.closest && !t.closest('#nav-productos')) {
       np.classList.remove('abierto');
       np.querySelector('button').setAttribute('aria-expanded', 'false');
     }
