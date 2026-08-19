@@ -1232,17 +1232,10 @@
 
   /* ---------- arranque ---------- */
 
-  function ajustarPadding() {
-    if (window.innerWidth < 1024) document.body.style.paddingBottom = '62px';
-    else document.body.style.paddingBottom = '';
-  }
-  window.addEventListener('resize', ajustarPadding);
-
   document.getElementById('anio').textContent = new Date().getFullYear();
   pintarMenus();
   pintarContador();
   avisoVacaciones();
-  ajustarPadding();
   render();
 
 })();
