@@ -25,10 +25,16 @@
 
 * { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
@@ -38,6 +44,11 @@ body {
 }
 
 img { max-width: 100%; display: block; }
+
+/* Tamaño por defecto para los iconos generados desde JS. Va con :where() para que
+   tenga especificidad cero y cualquier regla posterior lo sobrescriba. */
+:where(svg) { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; }
+svg { flex-shrink: 0; max-width: 100%; }
 a { color: var(--verde); text-decoration: none; }
 a:hover { text-decoration: underline; }
 button { font: inherit; cursor: pointer; }
@@ -89,16 +100,16 @@ h3 { font-size: 1.0625rem; }
 .util-der a { display: inline-flex; align-items: center; gap: 6px; }
 
 .cabecera-main .contenedor {
-  display: flex; align-items: center; gap: 12px;
-  min-height: 64px;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+  min-height: 62px; padding-top: 8px; padding-bottom: 8px;
 }
 
-.logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.logo { display: flex; align-items: center; gap: 9px; flex-shrink: 1; min-width: 0; margin-right: auto; }
 .logo:hover { text-decoration: none; }
 .logo-marca { display: flex; flex-direction: column; line-height: 1.05; }
 .logo-cem {
-  font-size: 1.35rem; font-weight: 800; color: var(--verde);
-  letter-spacing: -.02em;
+  font-size: 1.2rem; font-weight: 800; color: var(--verde);
+  letter-spacing: -.02em; white-space: nowrap;
 }
 .logo-cem b { color: var(--naranja); font-weight: 800; }
 .logo-sub {
@@ -112,8 +123,12 @@ h3 { font-size: 1.0625rem; }
 }
 .logo-icono svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 1.7; }
 
-/* Buscador */
-.buscador { flex: 1; position: relative; max-width: 520px; margin-left: auto; }
+/* Buscador. En móvil ocupa su propia fila: en la cabecera no caben a la vez
+   el logo, el campo y los accesos, y el campo acababa aplastado a 60px. */
+.buscador {
+  order: 10; flex: 1 0 100%; position: relative;
+  max-width: none; margin: 0 0 2px;
+}
 .buscador form { display: flex; }
 .buscador input {
   width: 100%; font-size: 1rem; padding: 10px 44px 10px 14px;
@@ -158,9 +173,9 @@ h3 { font-size: 1.0625rem; }
 }
 
 /* Acciones cabecera */
-.acciones { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.acciones { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
 .btn-icono {
-  width: 42px; height: 42px; border: 0; background: none; border-radius: 9px;
+  width: 44px; height: 44px; border: 0; background: none; border-radius: 9px;
   display: grid; place-items: center; position: relative; color: var(--tinta);
 }
 .btn-icono:hover { background: var(--fondo-alt); text-decoration: none; }
@@ -309,6 +324,10 @@ h3 { font-size: 1.0625rem; }
   background: rgba(255, 255, 255, .13); border: 1px solid rgba(255, 255, 255, .2);
   padding: 5px 12px; border-radius: 999px;
   font-size: .75rem; font-weight: 600; letter-spacing: .02em; margin-bottom: 14px;
+  max-width: 100%;
+}
+.portada-marca svg {
+  width: 14px; height: 14px; stroke: #ffd479; fill: none; stroke-width: 2;
 }
 .portada h1 { color: #fff; margin-bottom: 12px; max-width: 17ch; }
 .portada h1 em { font-style: normal; color: #ffd479; }
@@ -410,7 +429,7 @@ h3 { font-size: 1.0625rem; }
 .producto-precio small { font-size: .625rem; font-weight: 600; color: var(--gris-claro); display: block; margin-top: -3px; }
 .producto-consultar { font-size: .8125rem; font-weight: 700; color: var(--gris); }
 .btn-add {
-  width: 34px; height: 34px; border-radius: 8px; border: 0;
+  width: 40px; height: 40px; border-radius: 8px; border: 0;
   background: var(--verde-claro); display: grid; place-items: center; flex-shrink: 0;
   transition: background .15s;
 }
@@ -479,6 +498,13 @@ h3 { font-size: 1.0625rem; }
 .cab-pagina p { margin: 0; color: var(--gris); max-width: 62ch; }
 
 .layout { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 24px 0 44px; }
+
+/* Los items de un grid tienen min-width:auto, así que el contenido ancho
+   (las tiras de chips, las tablas de la ficha) estiraba la columna fuera de
+   la pantalla en móvil. */
+.layout > *, .ficha > *, .destacado > *, .servicios > *, .productos > *,
+.familias > *, .noticias > *, .fichas-contacto > *, .contacto-grid > * { min-width: 0; }
+.chips, .carrusel, .barra-filtros, .migas { min-width: 0; max-width: 100%; }
 
 .lateral { display: none; }
 .lateral-caja {
@@ -791,8 +817,10 @@ h3 { font-size: 1.0625rem; }
   .btn-menu { display: none !important; }
   .tostada { bottom: 28px; }
 
-  .cabecera-main .contenedor { min-height: 78px; gap: 28px; }
+  .cabecera-main .contenedor { min-height: 78px; gap: 28px; flex-wrap: nowrap; padding-top: 0; padding-bottom: 0; }
   .logo-cem { font-size: 1.6rem; }
+  .logo { margin-right: 0; }
+  .buscador { order: 0; flex: 1 1 auto; max-width: 520px; margin: 0 0 0 auto; }
   .btn-icono { width: auto; padding: 6px 12px; height: auto; flex-direction: column; gap: 1px; }
   .btn-icono .etiqueta { display: block; font-size: .6875rem; font-weight: 600; color: var(--gris); }
   .btn-icono .contador { top: 0; right: 4px; }
