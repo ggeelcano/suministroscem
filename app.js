@@ -198,6 +198,20 @@
       '</div>' +
       '</div></section>' +
 
+      '<section class="seccion"><div class="contenedor">' +
+      '<div class="mundos">' +
+      [['vajilla', 'amb-mesa', 'Mesa y sala', 'Vajilla, cristalería, cubertería y complementos'],
+       ['muebles', 'amb-muebles', 'Muebles y terraza', 'Sillas, mesas, taburetes, parasoles y estufas'],
+       ['maq-caliente', 'amb-maquinaria', 'Maquinaria de cocina', 'Frío, calor, elaboración y lavado industrial']]
+        .map(function (m) {
+          return '<a href="#/familia/' + m[0] + '" class="mundo">' +
+            '<img src="img/' + m[1] + '.webp" alt="" loading="lazy" width="800" height="468">' +
+            '<span class="mundo-txt"><strong>' + e(m[2]) + '</strong>' +
+            '<span>' + e(m[3]) + '</span>' +
+            '<em>Ver productos ' + ico('M5 12h14M13 6l6 6-6 6') + '</em></span></a>';
+        }).join('') +
+      '</div></div></section>' +
+
       '<section class="ventajas"><div class="contenedor"><div class="ventajas-grid">' +
       '<div class="ventaja">' + ico('M3 7h11v8H3zM14 10h4l3 3v2h-7zM7 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17.5 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4z') +
       '<div><strong>Envíos a toda España</strong><span>Normalmente en 24-48 h si está en almacén</span></div></div>' +
@@ -209,7 +223,9 @@
       '<div><strong>Atención directa</strong><span>Hablas con quien conoce el producto</span></div></div>' +
       '</div></div></section>' +
 
-      '<section class="seccion"><div class="contenedor">' +
+
+
+      '<section class="seccion" style="padding-top:0"><div class="contenedor">' +
       '<div class="seccion-cab"><div>' +
       '<span class="titulo-linea">Nuestros Productos</span>' +
       '<h2>Todas las familias del catálogo</h2>' +
